@@ -11,7 +11,12 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'com.arpit04tripathi.projects'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+    jaxbApiVersion = '2.3.0'
+} 
 
 repositories {
 	mavenCentral()
@@ -22,12 +27,23 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'com.h2database:h2'
-	// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
+	// spring-security-oauth2 and spring-security-jwt
 	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.5.RELEASE'
-	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-jwt
 	compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.2.RELEASE'
 	
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	// jaxb-api
+	compile group: 'javax.xml.bind', name: 'jaxb-api'
+	compile group: 'com.sun.xml.bind', name: 'jaxb-core', version: jaxbApiVersion
+	compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: jaxbApiVersion
+	
+	// https://mvnrepository.com/artifact/javax.activation/activation
+	compile group: 'javax.activation', name: 'activation', version: '1.1'
+	
+	//providedRuntime 
+	compile 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
+
+println 'path - ' + jar.archivePath
+

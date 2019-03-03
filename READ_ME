@@ -1,0 +1,22 @@
+https://www.tutorialspoint.com/spring_boot/spring_boot_oauth2_with_jwt.htm
+------------------------------------------------------------------------
+# Modifications for application.properties
+------------------------------------------------------------------------
+- For private key
+download openssl and set as env variable
+set rnd file location as env variable - folder/.rnd
+cmd line - openssl genrsa -des3 -out private.pem 2048
+cmd line - openssl rsa -in private.pem
+cmd line - openssl rsa -in private.pem -pubout
+
+
+
+
+\b  Match a word boundary
+\B  Match except at a word boundary
+\A  Match only at beginning of string
+\Z  Match only at end of string, or before newline at the end
+\z  Match only at end of string
+\G  Match only at pos() (e.g. at the end-of-match position of prior m//g)
+
+https://github.com/royclarkson/spring-rest-service-oauth/issues/55

@@ -1,5 +1,6 @@
 package com.arpit04tripathi.authserver.repository;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,20 +20,26 @@ public class UserDAO {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
+
 	public UserModel getUserDetails(String username) {
 		Collection<GrantedAuthority> grantedAuthoritiesList = new ArrayList<>();
 		String sqlQuery = "SELECT * FROM USERS WHERE USERNAME = ?";
-		
-		List<UserModel> list = jdbcTemplate.queryForList(sqlQuery, new String[] {username}, UserModel.class);
-		
-		if(CollectionUtils.isEmpty(list)) {
-			GrantedAuthority grantedAuthority= new SimpleGrantedAuthority("ROLE_SYSTEMADMIN");
+
+		List<UserModel> list = jdbcTemplate.query(sqlQuery, new String[] { username }, (ResultSet rs, int rowNum) -> {
+			UserModel user = new UserModel();
+			user.setUsername(username);
+			user.setPassword(rs.getString("PASSWORD"));
+			return user;
+		});
+//				ForList(sqlQuery, new String[] {username}, UserModel.class);
+
+		if (!CollectionUtils.isEmpty(list)) {
+			GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_SYSTEMADMIN");
 			grantedAuthoritiesList.add(grantedAuthority);
 			list.get(0).setGrantedAuthoritiesList(grantedAuthoritiesList);
 			return list.get(0);
 		}
-		
+
 		return null;
 	}
 }
